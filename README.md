@@ -1,10 +1,37 @@
 # 🌱 WeSeed — Clean Together
 
 > *You don't have to clean alone.*
+> 
+> WeSeed is a hyperlocal civic-tech app that connects people who want to take action on cleanliness in their communities — but need the safety of a group to do it. Report dirty spots, join cleanup drives, and watch your plant grow with every contribution.
 
-WeSeed is a hyperlocal civic-tech app that connects people who want to take action on cleanliness in their communities — but need the safety of a group to do it. Report dirty spots, join cleanup drives, and watch your plant grow with every contribution.
+## 💭 Why I built this
 
----
+Right outside my college there's a never ending line of garbage.
+Every single day. Foul smell. Impossible to ignore.
+
+I wanted to clean it up. I genuinely did.
+
+But I didn't.
+
+Not because I was lazy. Because I was scared. Scared that people 
+would stare. Scared someone would laugh. Scared of that familiar 
+feeling — log kya kahenge — even when I was trying to do something 
+good.
+
+And then I thought — what if I'm not the only one who feels this way?
+
+What if there are hundreds of people in every city who have that same 
+impulse, that same frustration, but hold back for the same reason — 
+because nobody wants to look stupid doing the right thing alone?
+
+That's what WeSeed is. Not an NGO. Not a government initiative. 
+Just a way for people who already care to find each other — so 
+nobody has to take the first step alone.
+
+I'm a first-year BTech student. I didn't wait to have the perfect 
+team, the perfect tech stack, or the perfect plan. I just started.
+
+Because someone has to.
 
 ## 💡 The Problem
 
