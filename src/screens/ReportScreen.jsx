@@ -1,3 +1,4 @@
+import { analyzeImage } from "../services/geminiService";
 import { useState, useRef } from 'react'
 import { ArrowLeft, Camera, MapPin } from 'lucide-react'
 
@@ -14,15 +15,58 @@ export default function ReportScreen({ onBack }) {
   const [selectedTag, setSelectedTag] = useState('Garbage dump')
   const [severity, setSeverity] = useState('Moderate')
   const [photo, setPhoto] = useState(null)
+  const [analysis, setAnalysis] = useState("")
+  const parsedAnalysis = analysis ? JSON.parse(analysis) : null
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("")
   const fileRef = useRef()
+ 
+   const handlePhoto = async (e) => {
+  const file = e.target.files[0]
+  if (!file) return
 
-  const handlePhoto = (e) => {
-    const file = e.target.files[0]
-    if (!file) return
-    const url = URL.createObjectURL(file)
-    setPhoto(url)
+  const url = URL.createObjectURL(file)
+  setPhoto(url)
+
+  try {
+    setLoading(true)
+    setError("")
+    setAnalysis("")
+
+    const reader = new FileReader()
+
+    reader.onloadend = async () => {
+      try {
+        const base64 = reader.result.split(",")[1]
+
+        const result = await analyzeImage(
+          base64,
+          file.type
+        )
+
+        setAnalysis(result)
+        const data = JSON.parse(result)
+
+if (data.issueType.toLowerCase().includes("garbage")) {
+  setSelectedTag("Garbage dump")
+}
+      } catch (err) {
+        console.error(err)
+        setError("AI analysis failed")
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    reader.readAsDataURL(file)
+
+  } catch (err) {
+    console.error(err)
+    setError("Something went wrong")
+    setLoading(false)
   }
-
+}
+  
   return (
     <div className="screen">
       {/* Topbar */}
@@ -35,6 +79,61 @@ export default function ReportScreen({ onBack }) {
 
       <div className="scroll" style={{ padding: '0 0 20px' }}>
         {/* Photo upload */}
+        {loading && (
+  <div
+    style={{
+      margin: "0 20px 14px",
+      padding: "14px",
+      borderRadius: "12px",
+      background: "rgba(34,197,94,0.08)",
+      color: "#86EFAC"
+    }}
+  >
+    🌱 Seed Agent is analyzing the issue...
+  </div>
+)}
+
+{error && (
+  <div
+    style={{
+      margin: "0 20px 14px",
+      padding: "14px",
+      borderRadius: "12px",
+      background: "rgba(239,68,68,0.1)",
+      color: "#ef5350"
+    }}
+  >
+    {error}
+  </div>
+)}
+
+{analysis && (
+  <div
+    style={{
+      margin: "0 20px 14px",
+      padding: "14px",
+      borderRadius: "12px",
+      background: "rgba(255,255,255,0.03)",
+      border: "1px solid rgba(34,197,94,0.15)",
+      whiteSpace: "pre-wrap",
+      color: "#d1d5db",
+      fontSize: "12px",
+      lineHeight: "1.6"
+    }}
+  >
+    {parsedAnalysis && (
+  <div>
+    <p>Issue: {parsedAnalysis.issueType}</p>
+    <p>Severity: {parsedAnalysis.severity}</p>
+    <p>Risk: {parsedAnalysis.risk}</p>
+    <p>Department: {parsedAnalysis.department}</p>
+    <p>Volunteers: {parsedAnalysis.volunteers}</p>
+    <p>Duration: {parsedAnalysis.duration}</p>
+    <p>Action: {parsedAnalysis.action}</p>
+  </div>
+)}
+  </div>
+)}
         <input type="file" ref={fileRef} accept="image/*" capture="environment" onChange={handlePhoto} style={{ display: 'none' }} />
         <div onClick={() => fileRef.current.click()} style={{ margin: '14px 20px', height: 150, background: 'rgba(255,255,255,0.02)', border: '1.5px dashed rgba(34,197,94,0.2)', borderRadius: 18, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6, cursor: 'pointer', overflow: 'hidden', position: 'relative' }}>
           {photo ? (
