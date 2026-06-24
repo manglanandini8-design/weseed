@@ -1,6 +1,6 @@
 import { useState,useEffect } from 'react'
 import { Bell, User, MapPin, ArrowUp, Heart, Plus } from 'lucide-react'
-
+import { GoogleMap, Marker, LoadScript } from '@react-google-maps/api'
 const spots = [
   {
     id: 1, name: 'Model Town Park Gate',
@@ -21,11 +21,15 @@ const spots = [
     upvotes: 38, drive: 'See before/after', iconBg: 'rgba(34,197,94,0.1)', iconColor: '#4ADE80', type: 'check', heart: true
   },
 ]
-
+const mapContainerStyle = {
+  width: '100%',
+  height: '180px'
+}
 export default function HomeScreen({ onReport }) {
   const [activeChip, setActiveChip] = useState('All spots')
   const [location, setLocation] = useState(null)
   const [locationError, setLocationError] = useState(false)
+  console.log(import.meta.env.VITE_GOOGLE_MAPS_API_KEY)
   const chips = ['All spots', 'Garbage', 'Littering', 'Dirty water', 'Fixed']
   useEffect(() => {
   navigator.geolocation.getCurrentPosition(
@@ -66,12 +70,33 @@ export default function HomeScreen({ onReport }) {
 
       <div className="scroll">
         {/* Map */}
-        <div style={{ margin: '0 20px 14px', height: 180, background: '#0d1f10', borderRadius: 20, border: '0.5px solid rgba(34,197,94,0.12)', position: 'relative', overflow: 'hidden' }}>
-          {/* Roads */}
-          <div style={{ position: 'absolute', background: '#1a2e1f', height: 2, width: '100%', top: '35%' }} />
-          <div style={{ position: 'absolute', background: '#1a2e1f', height: 2, width: '100%', top: '65%' }} />
-          <div style={{ position: 'absolute', background: '#1a2e1f', width: 2, height: '100%', left: '30%' }} />
-          <div style={{ position: 'absolute', background: '#1a2e1f', width: 2, height: '100%', left: '65%' }} />
+        <div
+  style={{
+    margin: '0 20px 14px',
+    borderRadius: 20,
+    overflow: 'hidden'
+  }}
+>
+  <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
+    {location && (
+      <GoogleMap
+        mapContainerStyle={mapContainerStyle}
+        center={{
+          lat: location.lat,
+          lng: location.lng
+        }}
+        zoom={15}
+      >
+        <Marker
+          position={{
+            lat: location.lat,
+            lng: location.lng
+          }}
+        />
+      </GoogleMap>
+    )}
+  </LoadScript>
+</div>
           {/* Labels */}
          
           {[
