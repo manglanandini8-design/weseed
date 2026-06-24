@@ -16,56 +16,73 @@ export default function ReportScreen({ onBack }) {
   const [severity, setSeverity] = useState('Moderate')
   const [photo, setPhoto] = useState(null)
   const [analysis, setAnalysis] = useState("")
-  const parsedAnalysis = analysis ? JSON.parse(analysis) : null
+  let parsedAnalysis = null
+
+  try {
+  parsedAnalysis = analysis ? JSON.parse(analysis) : null
+  } catch (e) {
+  console.error("Invalid JSON from Gemini", e)
+  }
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const fileRef = useRef()
  
    const handlePhoto = async (e) => {
-  const file = e.target.files[0]
-  if (!file) return
+    const file = e.target.files[0]
+    if (!file) return
 
-  const url = URL.createObjectURL(file)
-  setPhoto(url)
+    const url = URL.createObjectURL(file)
+    setPhoto(url)
 
-  try {
-    setLoading(true)
-    setError("")
-    setAnalysis("")
+    try {
+      setLoading(true)
+      setError("")
+      setAnalysis("")
 
-    const reader = new FileReader()
+      const reader = new FileReader()
 
-    reader.onloadend = async () => {
-      try {
-        const base64 = reader.result.split(",")[1]
+      reader.onloadend = async () => {
+        try {
+          const base64 = reader.result.split(",")[1];
+          const result = await analyzeImage(base64, file.type);
+          
+          // Debugging: See exactly what the AI sent in the browser console
+          console.log("Seed Agent Raw Output:", result);
 
-        const result = await analyzeImage(
-          base64,
-          file.type
-        )
+          // Attempt to parse
+         console.log(result);
 
-        setAnalysis(result)
-        const data = JSON.parse(result)
+          setAnalysis(result);
 
-if (data.issueType.toLowerCase().includes("garbage")) {
-  setSelectedTag("Garbage dump")
+          return;
+          setAnalysis(JSON.stringify(data)); // Save it as a clean string
+
+          // Auto-update UI
+          if (data.severity) {
+            const s = data.severity.toLowerCase();
+            if (s.includes("high") || s.includes("severe") || s.includes("critical")) setSeverity("Severe");
+            else if (s.includes("medium") || s.includes("moderate")) setSeverity("Moderate");
+            else setSeverity("Mild");
+          }
+        } catch (err) {
+          console.error("Parsing failed:", err);
+          if (err.message?.includes("RESOURCE_EXHAUSTED")) {
+  setError("Gemini API quota exceeded. Try again later.")
+} else {
+  setError("AI analysis failed.")
 }
-      } catch (err) {
-        console.error(err)
-        setError("AI analysis failed")
-      } finally {
-        setLoading(false)
-      }
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      reader.readAsDataURL(file)
+    } catch (err) {
+      console.error("File Read Error:", err)
+      setError("Something went wrong with the photo.")
+      setLoading(false)
     }
-
-    reader.readAsDataURL(file)
-
-  } catch (err) {
-    console.error(err)
-    setError("Something went wrong")
-    setLoading(false)
   }
-}
   
   return (
     <div className="screen">
@@ -123,13 +140,18 @@ if (data.issueType.toLowerCase().includes("garbage")) {
   >
     {parsedAnalysis && (
   <div>
-    <p>Issue: {parsedAnalysis.issueType}</p>
-    <p>Severity: {parsedAnalysis.severity}</p>
-    <p>Risk: {parsedAnalysis.risk}</p>
-    <p>Department: {parsedAnalysis.department}</p>
-    <p>Volunteers: {parsedAnalysis.volunteers}</p>
-    <p>Duration: {parsedAnalysis.duration}</p>
-    <p>Action: {parsedAnalysis.action}</p>
+    <p style={{ color: "#4ADE80", fontWeight: "600", marginBottom: "10px" }}>
+      🌱 Seed Agent Analysis
+    </p>
+
+    <p><strong>Issue:</strong> {parsedAnalysis.issueType}</p>
+    <p><strong>Severity:</strong> {parsedAnalysis.severity}</p>
+    <p><strong>Risk:</strong> {parsedAnalysis.risk}</p>
+    <p><strong>Authority:</strong> {parsedAnalysis.department}</p>
+    <p><strong>Confidence:</strong> {parsedAnalysis.confidence}</p>
+
+    
+     )
   </div>
 )}
   </div>

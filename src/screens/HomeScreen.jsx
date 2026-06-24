@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import { Bell, User, MapPin, ArrowUp, Heart, Plus } from 'lucide-react'
 
 const spots = [
@@ -24,8 +24,23 @@ const spots = [
 
 export default function HomeScreen({ onReport }) {
   const [activeChip, setActiveChip] = useState('All spots')
+  const [location, setLocation] = useState(null)
+  const [locationError, setLocationError] = useState(false)
   const chips = ['All spots', 'Garbage', 'Littering', 'Dirty water', 'Fixed']
-
+  useEffect(() => {
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      setLocation({
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      })
+    },
+    (error) => {
+  console.error(error)
+  setLocationError(true)
+}
+  )
+}, [])
   return (
     <div className="screen">
       {/* Topbar */}
@@ -34,7 +49,13 @@ export default function HomeScreen({ onReport }) {
           <div className="topbar-title">WeSeed</div>
           <div className="topbar-sub" style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
             <MapPin size={10} color="#22C55E" />
-            Model Town, Punjab
+            {
+  locationError
+    ? "Location access denied"
+    : location
+      ? "Current location available"
+      : "Detecting location..."
+}
           </div>
         </div>
         <div style={{ display: 'flex', gap: 10 }}>
@@ -52,9 +73,7 @@ export default function HomeScreen({ onReport }) {
           <div style={{ position: 'absolute', background: '#1a2e1f', width: 2, height: '100%', left: '30%' }} />
           <div style={{ position: 'absolute', background: '#1a2e1f', width: 2, height: '100%', left: '65%' }} />
           {/* Labels */}
-          <span style={{ position: 'absolute', top: 8, left: 10, fontSize: 9, color: '#3d5c42', background: 'rgba(11,15,12,0.7)', padding: '2px 6px', borderRadius: 6 }}>Model Town Park</span>
-          <span style={{ position: 'absolute', bottom: 8, right: 10, fontSize: 9, color: '#3d5c42', background: 'rgba(11,15,12,0.7)', padding: '2px 6px', borderRadius: 6 }}>Sector 32</span>
-          {/* Pins */}
+         
           {[
             { top: '18%', left: '24%', bg: 'rgba(229,57,53,0.8)', label: 'Garbage' },
             { top: '50%', left: '56%', bg: 'rgba(251,140,0,0.8)', label: 'Littering' },
@@ -79,7 +98,9 @@ export default function HomeScreen({ onReport }) {
           ))}
         </div>
 
-        <div className="sec-label">3 spots near you</div>
+        <div className="sec-label">
+         {spots.length} spots near you
+        </div>
 
         {/* Spot cards */}
         {spots.map(spot => (

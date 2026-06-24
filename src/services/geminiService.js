@@ -5,32 +5,9 @@ const ai = new GoogleGenAI({
 });
 
 export async function analyzeImage(base64Image, mimeType) {
+
   const prompt = `
-You are Seed Agent, an AI civic assistant for WeSeed.
-
-Analyze the uploaded image of a community or environmental issue.
-
-Identify:
-1. Issue Type
-2. Specific Problem
-3. Severity
-4. Risk Level
-5. Resolution Type
-
-Resolution Type must be exactly one of:
-- Community Action
-- Authority Required
-- Emergency Attention
-
-Then provide:
-- Estimated volunteers required
-- Estimated duration
-- Required materials
-- Estimated Cost
-- Suggested immediate action
-- Suitable Authority Department
-- Authority notification
-
+Analyze this civic issue image.
 
 Return ONLY valid JSON.
 
@@ -39,28 +16,37 @@ Return ONLY valid JSON.
   "severity": "",
   "risk": "",
   "department": "",
-  "volunteers": "",
-  "duration": "",
-  "action": ""
+  "confidence": ""
 }
-
-Do not return markdown.
-Do not return explanations.
-Do not return any text outside JSON.
 `;
 
-  const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash",
-    contents: [
-      {
-        inlineData: {
-          data: base64Image,
-          mimeType,
-        },
-      },
-      prompt,
-    ],
-  });
+  try {
 
-  return response.text;
+    const response = await ai.models.generateContent({
+      model: "gemini-2.0-flash",
+      contents: [
+        {
+          inlineData: {
+            mimeType,
+            data: base64Image,
+          },
+        },
+        {
+          text: prompt,
+        },
+      ],
+    });
+    console.log("FULL RESPONSE:",response);
+    const text = response.text();
+
+    console.log("RAW GEMINI RESPONSE:", text);
+
+    return text
+      .replace(/```json|```/gi, "")
+      .trim();
+
+  } catch (error) {
+    console.error("Gemini API Error:", error);
+    throw error;
+  }
 }
