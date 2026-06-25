@@ -1,5 +1,5 @@
 import { analyzeImage } from "../services/geminiService";
-import { useState, useRef } from 'react'
+import { useState, useEffect,useRef } from 'react'
 import { ArrowLeft, Camera, MapPin } from 'lucide-react'
 import { db } from "../firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
@@ -10,7 +10,10 @@ const tagOptions = [
   { label: 'Open burning', icon: '🔥' },
   { label: 'Littering', icon: '🚯' },
   { label: 'Open defecation', icon: '⚠️' },
-  { label: 'Other', icon: '➕' },
+  { label: 'Water Leakage', icon: '➕' },
+  { label: 'pothole', icon: '⚠️' },
+  { label: 'other', icon: '➕' },
+
 ]
 
 export default function ReportScreen({ onBack }) {
@@ -18,6 +21,7 @@ export default function ReportScreen({ onBack }) {
   const [severity, setSeverity] = useState('Moderate')
   const [photo, setPhoto] = useState(null)
   const [analysis, setAnalysis] = useState("")
+  const [currentLocation, setCurrentLocation] = useState(null)
   let parsedAnalysis = null
 
   try {
@@ -28,6 +32,19 @@ export default function ReportScreen({ onBack }) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const fileRef = useRef()
+  useEffect(() => {
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      setCurrentLocation({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      });
+    },
+    (error) => {
+      console.error("Location error:", error);
+    }
+  );
+}, []);
  
    const handlePhoto = async (e) => {
     const file = e.target.files[0]
@@ -92,6 +109,9 @@ export default function ReportScreen({ onBack }) {
       severity,
       analysis: parsedAnalysis,
       photo,
+      location: locationName,
+      latitude: currentLocation?.latitude,
+      longitude: currentLocation?.longitude,
       createdAt: serverTimestamp()
     });
 

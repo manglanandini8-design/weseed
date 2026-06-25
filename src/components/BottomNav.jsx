@@ -1,12 +1,11 @@
-import { MapPin, Users, Image, Leaf } from 'lucide-react'
-
+import { MapPin, Users,FileText, Image, Leaf } from 'lucide-react'
 const tabs = [
   { id: 'home', label: 'Home', Icon: MapPin },
+  { id: 'reports', label: 'Reports', Icon: FileText },
   { id: 'drives', label: 'Drives', Icon: Users },
   { id: 'feed', label: 'Feed', Icon: Image },
   { id: 'plant', label: 'My Plant', Icon: Leaf },
 ]
-
 export default function BottomNav({ active, onSwitch }) {
   return (
     <nav className="bottom-nav">

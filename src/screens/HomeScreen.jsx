@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import { Bell, User, MapPin, ArrowUp, Heart, Plus } from 'lucide-react'
 import { GoogleMap, Marker, LoadScript } from '@react-google-maps/api'
+import { collection, getDocs } from "firebase/firestore"
+import { db } from "../firebase"
+
 const spots = [
   {
     id: 1, name: 'Model Town Park Gate',
@@ -25,9 +28,10 @@ const mapContainerStyle = {
   width: '100%',
   height: '180px'
 }
-export default function HomeScreen({ onReport }) {
+export default function HomeScreen({ onReport ,onViewReports }) {
   const [activeChip, setActiveChip] = useState('All spots')
   const [location, setLocation] = useState(null)
+  const [reports, setReports] = useState([])
   const [locationError, setLocationError] = useState(false)
   const chips = ['All spots', 'Garbage', 'Littering', 'Dirty water', 'Fixed']
   useEffect(() => {
@@ -43,7 +47,22 @@ export default function HomeScreen({ onReport }) {
         setLocationError(true)
       }
     )
+     loadReports();
   }, [])
+  const loadReports = async () => {
+  try {
+    const snapshot = await getDocs(collection(db, "reports"));
+
+    const data = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    setReports(data);
+  } catch (err) {
+    console.error(err);
+  }
+};
   return (
     <div className="screen">
       {/* Topbar */}
@@ -92,11 +111,61 @@ export default function HomeScreen({ onReport }) {
                     lng: location.lng
                   }}
                 />
+                {reports.map(report => (
+                <Marker
+                  key={report.id}
+                  position={{
+                    lat: report.latitude,
+                    lng: report.longitude
+                  }}
+                />
+))}
               </GoogleMap>
             )}
           </LoadScript>
         </div>
+       
+{/* Buttons */}
+<div
+  style={{
+    margin: "0 20px 14px",
+    display: "flex",
+    justifyContent: "space-between",
+    gap: 10,
+  }}
+>
 
+  <button
+   onClick={onViewReports}
+    style={{
+      flex: 1,
+      padding: "10px",
+      borderRadius: "12px",
+      border: "none",
+      background: "#22C55E",
+      color: "#fff",
+      fontWeight: "600",
+      cursor: "pointer",
+    }}
+  >
+    📄 View Reports
+  </button>
+
+  <button
+    style={{
+      flex: 1,
+      padding: "10px",
+      borderRadius: "12px",
+      border: "1px solid #22C55E",
+      background: "transparent",
+      color: "#22C55E",
+      fontWeight: "600",
+      cursor: "pointer",
+    }}
+  >
+    🔥 Hotspots
+  </button>
+</div>
 
         {/* Filter chips */}
         <div className="filter-row">
