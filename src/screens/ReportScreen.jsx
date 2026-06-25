@@ -1,6 +1,8 @@
 import { analyzeImage } from "../services/geminiService";
 import { useState, useRef } from 'react'
 import { ArrowLeft, Camera, MapPin } from 'lucide-react'
+import { db } from "../firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 const tagOptions = [
   { label: 'Garbage dump', icon: '🗑️' },
@@ -83,7 +85,23 @@ export default function ReportScreen({ onBack }) {
       setLoading(false)
     }
   }
-  
+  const submitReport = async () => {
+  try {
+    await addDoc(collection(db, "reports"), {
+      tag: selectedTag,
+      severity,
+      analysis: parsedAnalysis,
+      photo,
+      createdAt: serverTimestamp()
+    });
+
+    alert("Report submitted successfully!");
+    onBack();
+  } catch (error) {
+  console.error(error);
+  alert(JSON.stringify(error));
+}
+};
   return (
     <div className="screen">
       {/* Topbar */}
@@ -150,8 +168,6 @@ export default function ReportScreen({ onBack }) {
     <p><strong>Authority:</strong> {parsedAnalysis.department}</p>
     <p><strong>Confidence:</strong> {parsedAnalysis.confidence}</p>
 
-    
-     )
   </div>
 )}
   </div>
@@ -219,7 +235,7 @@ export default function ReportScreen({ onBack }) {
         </div>
 
         <div style={{ padding: '0 20px' }}>
-          <button className="btn-primary" onClick={onBack}>
+          <button className="btn-primary" onClick={submitReport}>
             <MapPin size={16} /> Submit report
           </button>
         </div>
