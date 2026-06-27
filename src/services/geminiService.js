@@ -1,3 +1,4 @@
+// src/services/geminiService.js
 import { GoogleGenAI } from "@google/genai";
 
 const ai = new GoogleGenAI({
@@ -5,23 +6,23 @@ const ai = new GoogleGenAI({
 });
 
 export async function analyzeImage(base64Image, mimeType) {
-const prompt = `
-Analyze this civic issue image.
+  const prompt = `
+You are Seed Agent, an expert civic issue analyst for a hyperlocal cleanup platform.
 
-Return ONLY valid JSON. No explanation. No markdown.
+Analyze the image and return **ONLY** clean, valid JSON. No extra text, no markdown.
 
 {
-  "issueType": "",
-  "severity": "Low | Medium | High | Critical",
-  "risk": "",
-  "department": "",
-  "action": "",
-  "confidence": "Low | Medium | High"
+  "issueType": "Garbage dump / Pothole / Dirty water / Littering / Open burning / etc",
+  "severity": "Mild | Moderate | Severe | Critical",
+  "risk": "Short description of public health or safety risk",
+  "department": "Municipal Corporation / PWD / Water Board / etc",
+  "suggestedAction": "Short actionable suggestion",
+  "confidence": 85,
+  "summary": "One clear human-readable sentence"
 }
 `;
 
   try {
-
     const response = await ai.models.generateContent({
       model: "gemini-2.0-flash",
       contents: [
@@ -36,11 +37,11 @@ Return ONLY valid JSON. No explanation. No markdown.
         },
       ],
     });
-    console.log("FULL RESPONSE:",response);
+
     const text = response.text();
+    console.log("Gemini Raw Response:", text);
 
-    console.log("RAW GEMINI RESPONSE:", text);
-
+    // Clean the response
     return text
       .replace(/```json|```/gi, "")
       .trim();

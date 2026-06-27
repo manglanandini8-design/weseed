@@ -9,9 +9,9 @@ const tagOptions = [
   { label: 'Dirty water', icon: '💧' },
   { label: 'Open burning', icon: '🔥' },
   { label: 'Littering', icon: '🚯' },
-  { label: 'Open defecation', icon: '🚽' },
+  { label: 'Open defecation', icon: '⚠️' },
   { label: 'Water Leakage', icon: 'x' },
-  { label: 'pothole', icon: '🕳️' },
+  { label: 'pothole', icon: '⚠️' },
   { label: 'other', icon: '➕' },
 
 ]

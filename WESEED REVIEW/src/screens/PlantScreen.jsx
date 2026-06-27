@@ -28,7 +28,7 @@ export default function PlantScreen({ onDrives }) {
   return (
     <div className="screen">
       <div className="scroll">
-        {/* Profile top - Original */}
+        {/* Profile top */}
         <div style={{ padding: '8px 20px 14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <div style={{ position: 'relative' }}>
@@ -50,35 +50,29 @@ export default function PlantScreen({ onDrives }) {
           </button>
         </div>
 
-        {/* Hero plant with animations */}
+        {/* Hero plant */}
         <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '6px 0 0' }}>
-          <div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', width: 200, height: 200, borderRadius: '50%', background: 'radial-gradient(circle, rgba(34,197,94,0.22) 0%, transparent 70%)', animation: 'pulseGlow 4s ease-in-out infinite' }} />
-          <PlantSVG size={170} style={{ animation: 'gentleSway 6s ease-in-out infinite' }} />
+          <div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', width: 180, height: 180, borderRadius: '50%', background: 'radial-gradient(circle, rgba(34,197,94,0.15) 0%, transparent 70%)', pointerEvents: 'none' }} />
+          <PlantSVG size={160} />
           <div style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(34,197,94,0.08)', border: '0.5px solid rgba(34,197,94,0.2)', borderRadius: 20, padding: '4px 10px', fontSize: 10, color: '#4ADE80', marginTop: 8, zIndex: 2 }}>
             <span className="pulse-dot" />
             Thriving · Last active 3 days ago
           </div>
         </div>
 
-        {/* XP bar with animation */}
+        {/* XP bar */}
         <div style={{ padding: '14px 20px 0' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 5 }}>
             <span style={{ fontSize: 12, color: '#86EFAC', fontWeight: 500 }}>72% to Full Tree</span>
             <span style={{ fontSize: 11, color: 'var(--text-dim)' }}>420 / 580 XP</span>
           </div>
           <div style={{ width: '100%', height: 6, background: 'rgba(255,255,255,0.05)', borderRadius: 10, overflow: 'hidden' }}>
-            <div style={{ 
-              height: '100%', 
-              width: '72%', 
-              background: 'linear-gradient(90deg, #16a34a, #4ADE80)', 
-              borderRadius: 10,
-              animation: 'growProgress 1.8s ease-out'
-            }} />
+            <div style={{ height: '100%', width: '72%', background: 'linear-gradient(90deg, #16a34a, #4ADE80)', borderRadius: 10 }} />
           </div>
           <div style={{ fontSize: 10, color: '#2d4a32', marginTop: 4 }}>78 XP until Full Tree — join a drive to get there</div>
         </div>
 
-        {/* Original Timeline */}
+        {/* Timeline */}
         <div style={{ padding: '14px 20px 0' }}>
           <div style={{ fontSize: 10, color: '#2d4a32', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 10, fontWeight: 500 }}>Growth journey</div>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative' }}>
@@ -97,7 +91,7 @@ export default function PlantScreen({ onDrives }) {
           </div>
         </div>
 
-        {/* Impact cards - Original */}
+        {/* Impact cards */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 20px 8px' }}>
           <span style={{ fontSize: 13, fontWeight: 500, color: '#4ADE80' }}>Impact</span>
           <span style={{ fontSize: 10, color: 'var(--text-dim)', cursor: 'pointer' }}>this month</span>
@@ -117,7 +111,7 @@ export default function PlantScreen({ onDrives }) {
           ))}
         </div>
 
-        {/* Achievements - Original */}
+        {/* Achievements */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 20px 8px' }}>
           <span style={{ fontSize: 13, fontWeight: 500, color: '#4ADE80' }}>Achievements</span>
           <span style={{ fontSize: 10, color: 'var(--text-dim)', cursor: 'pointer' }}>see all</span>
@@ -133,6 +127,19 @@ export default function PlantScreen({ onDrives }) {
           ))}
         </div>
 
+        {/* Community stats */}
+        <div style={{ padding: '14px 20px 8px', fontSize: 13, fontWeight: 500, color: '#4ADE80' }}>Your impact this month</div>
+        <div className="glass-card" style={{ margin: '0 20px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            {[{ n: 3, l: 'Trees grown' }, { n: 7, l: 'Drives joined' }, { n: '91%', l: 'Community score' }].map((s, i) => (
+              <div key={s.l} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3, flex: 1, borderRight: i < 2 ? '0.5px solid rgba(34,197,94,0.1)' : 'none' }}>
+                <span style={{ fontSize: 18, fontWeight: 500, color: 'var(--text-primary)' }}>{s.n}</span>
+                <span style={{ fontSize: 9, color: 'var(--text-dim)', textAlign: 'center' }}>{s.l}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* CTAs */}
         <div style={{ padding: '14px 20px 20px', display: 'flex', flexDirection: 'column', gap: 8 }}>
           <button className="btn-primary" onClick={onDrives}>
@@ -143,21 +150,6 @@ export default function PlantScreen({ onDrives }) {
           </button>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes gentleSway {
-          0%, 100% { transform: rotate(-3deg); }
-          50% { transform: rotate(3deg); }
-        }
-        @keyframes pulseGlow {
-          0%, 100% { opacity: 0.6; transform: scale(0.95); }
-          50% { opacity: 1; transform: scale(1.05); }
-        }
-        @keyframes growProgress {
-          from { width: 0%; }
-          to { width: 72%; }
-        }
-      `}</style>
     </div>
-  );
+  )
 }
