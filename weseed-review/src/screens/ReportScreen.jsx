@@ -2,7 +2,7 @@ import { analyzeImage } from "../services/geminiService";
 import { useState, useEffect,useRef } from 'react'
 import { ArrowLeft, Camera, MapPin } from 'lucide-react'
 import { db } from "../firebase";
-import { collection, addDoc, serverTimestamp ,GeoPoint} from "firebase/firestore";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 const tagOptions = [
   { label: 'Garbage dump', icon: '🗑️' },
@@ -10,7 +10,7 @@ const tagOptions = [
   { label: 'Open burning', icon: '🔥' },
   { label: 'Littering', icon: '🚯' },
   { label: 'Open defecation', icon: '⚠️' },
-  { label: 'Water Leakage', icon: 'x' },
+  { label: 'Water Leakage', icon: '➕' },
   { label: 'pothole', icon: '⚠️' },
   { label: 'other', icon: '➕' },
 
@@ -36,16 +36,13 @@ export default function ReportScreen({ onBack }) {
   useEffect(() => {
   navigator.geolocation.getCurrentPosition(
     (position) => {
-       console.log("LOCATION FOUND", position.coords);
       setCurrentLocation({
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
       });
-      console.log("State updated");
     },
     (error) => {
       console.error("Location error:", error);
-      alert(error.message);
     }
   );
 }, []);
@@ -77,6 +74,7 @@ export default function ReportScreen({ onBack }) {
 
         const data = JSON.parse(result);
 
+          return;
           setAnalysis(JSON.stringify(data)); // Save it as a clean string
 
           // Auto-update UI
@@ -106,36 +104,25 @@ export default function ReportScreen({ onBack }) {
     }
   }
   const submitReport = async () => {
-  if (!photo) {
-    alert('Please upload a photo first.');
-    return;
-  }
-  console.log(currentLocation)
-  if (!currentLocation) {
-    alert('Location not detected yet. Please wait.');
-    return;
-  }
   try {
-    await addDoc(collection(db, 'reports'), {
+    await addDoc(collection(db, "reports"), {
       tag: selectedTag,
       severity,
       note,
       analysis: parsedAnalysis,
       photo,
-      location: `${currentLocation.latitude.toFixed(5)}, ${currentLocation.longitude.toFixed(5)}`,
-      latitude: currentLocation.latitude,
-      longitude: currentLocation.longitude,
-      createdAt: serverTimestamp(),
-      status: 'Open',
-      resolved: false,
-      upvotes: 0,
+      location: "Auto detected",
+      latitude: currentLocation?.latitude,
+      longitude: currentLocation?.longitude,
+      createdAt: serverTimestamp()
     });
-    alert('Report submitted! 🌱');
+
+    alert("Report submitted successfully!");
     onBack();
   } catch (error) {
-    console.error(error);
-    alert('Failed to submit. Check your connection.');
-  }
+  console.error(error);
+  alert(JSON.stringify(error));
+}
 };
   return (
     <div className="screen">
@@ -255,14 +242,9 @@ export default function ReportScreen({ onBack }) {
             <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(34,197,94,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <MapPin size={14} color="#22C55E" />
             </div>
-           <div style={{ flex: 1 }}>
-  <div style={{ fontSize: 12, fontWeight: 500, color: '#86EFAC' }}>
-    {currentLocation
-      ? `${currentLocation.latitude.toFixed(4)}, ${currentLocation.longitude.toFixed(4)}`
-      : 'Detecting location...'}
-  </div>
-  <div style={{ fontSize: 10, color: 'var(--text-dim)' }}>Auto-detected</div>
-</div>
+            <div style={{ flex: 1 }}>
+              
+            </div>
             <span style={{ fontSize: 11, color: '#22C55E', fontWeight: 500, cursor: 'pointer' }}>Change</span>
           </div>
         </div>

@@ -5,18 +5,18 @@ const ai = new GoogleGenAI({
 });
 
 export async function analyzeImage(base64Image, mimeType) {
-const prompt = `
+
+  const prompt = `
 Analyze this civic issue image.
 
-Return ONLY valid JSON. No explanation. No markdown.
+Return ONLY valid JSON.
 
 {
   "issueType": "",
-  "severity": "Low | Medium | High | Critical",
+  "severity": "",
   "risk": "",
   "department": "",
-  "action": "",
-  "confidence": "Low | Medium | High"
+  "confidence": ""
 }
 `;
 
