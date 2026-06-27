@@ -1,135 +1,272 @@
 # 🌱 WeSeed — Clean Together
 
-> *You don't have to clean alone.*
-> 
-> WeSeed is a hyperlocal civic-tech app that connects people who want to take action on cleanliness in their communities — but need the safety of a group to do it. Report dirty spots, join cleanup drives, and watch your plant grow with every contribution.
+> **You don't have to clean alone.**
 
-## 💭 Why I built this
+WeSeed is an AI-powered civic-tech platform that helps citizens report environmental issues, discover community hotspots, and organize local cleanup drives. It combines crowdsourced reporting, intelligent mapping, and community participation to make neighborhoods cleaner together.
 
-Right outside my college there's a never ending line of garbage.
-Every single day. Foul smell. Impossible to ignore.
-
-I wanted to clean it up. I genuinely did.
-
-But I didn't.
-
-Not because I was lazy. Because I was scared. Scared that people 
-would stare. Scared someone would laugh. Scared of that familiar 
-feeling — log kya kahenge — even when I was trying to do something 
-good.
-
-And then I thought — what if I'm not the only one who feels this way?
-
-What if there are hundreds of people in every city who have that same 
-impulse, that same frustration, but hold back for the same reason — 
-because nobody wants to look stupid doing the right thing alone?
-
-That's what WeSeed is. Not an NGO. Not a government initiative. 
-Just a way for people who already care to find each other — so 
-nobody has to take the first step alone.
-
-I'm a first-year BTech student. I didn't wait to have the perfect 
-team, the perfect tech stack, or the perfect plan. I just started.
-
-Because someone has to.
-
-## 💡 The Problem
-
-Most Indians feel frustrated by dirty public spaces. Many have even wanted to clean up — but held back. Not because they're lazy. Because of *log kya kahenge*. The fear of judgment stops real, willing people from acting.
-
-WeSeed solves one thing: **you don't have to go first, alone.**
+**Live Demo:** https://weseed.vercel.app
 
 ---
 
-## 📱 Features (Prototype)
+# 💭 Why I Built WeSeed
 
-| Screen | What it does |
-|--------|-------------|
-| 🗺️ Home | Map view of dirty spots reported near you |
-| 📸 Report | Photo upload + tag + severity + location |
-| 🤝 Drives | Join or plan a cleanup drive at any reported spot |
-| 🖼️ Feed | Before & after photos from real cleanups nearby |
-| 🌱 My Plant | Gamified plant that grows with every contribution |
+Right outside my college is a stretch of road that's almost always covered in garbage.
+
+Every day I walked past it thinking, *someone should clean this.*
+
+Many times I wanted to.
+
+But I never did.
+
+Not because I didn't care.
+
+Because I was afraid.
+
+Afraid people would stare.
+Afraid someone would laugh.
+Afraid of that familiar thought:
+
+**"Log kya kahenge?"**
+
+Then I realized something.
+
+Maybe thousands of people feel exactly the same.
+
+People who genuinely care, but don't want to be the only one picking up trash in public.
+
+That realization became WeSeed.
+
+Not another NGO.
+Not another complaint app.
+
+A platform where people who already care can find each other and take action together.
+
+Because the hardest part isn't cleaning.
+
+It's taking the first step alone.
 
 ---
 
-## 🌱 The Plant System
+# 🌍 The Problem
 
-| Action | Reward |
-|--------|--------|
-| Report a spot | Seed planted |
-| First drive joined | Sprout appears |
-| 3 drives done | Small plant |
-| 10 drives done | Flowering plant |
-| 25 drives done | Full tree |
+Cities receive thousands of complaints every year, yet many local environmental issues remain unresolved.
+
+At the same time, citizens who genuinely want to help often hesitate because they feel uncomfortable acting alone.
+
+WeSeed bridges that gap by connecting people, highlighting problem areas, and encouraging collective action.
 
 ---
 
-## 🛠️ Tech Stack
+# ✨ Features
 
-- React 18 + Vite
-- React Router DOM
-- Lucide React icons
-- Dark mode UI (#0B0F0C base, green accent palette)
+## 🗺️ Smart Community Map
+
+* Live Google Maps integration
+* Nearby environmental reports
+* User location detection
+* Interactive report markers
 
 ---
 
-## 🚀 Run Locally
+## 📸 Report an Issue
+
+Users can report:
+
+* Garbage dumps
+* Potholes
+* Dirty water
+* Littering
+* Streetlight issues
+* Other civic problems
+
+Each report stores:
+
+* GPS location
+* Photo
+* Severity
+* Description
+* Timestamp
+
+---
+
+## 🔥 Hotspot Detection
+
+One of WeSeed's core features.
+
+The application automatically:
+
+* Groups nearby reports
+* Detects recurring issues
+* Calculates hotspot severity
+* Displays color-coded hotspot circles
+
+This allows users to immediately identify the areas needing the most attention.
+
+---
+
+## 🤖 AI Assisted Analysis
+
+When available, Gemini AI analyzes uploaded images to identify:
+
+* Issue type
+* Severity
+* Risk level
+* Responsible authority
+* Recommended action
+* Confidence level
+
+If AI is unavailable, reports are still stored and remain visible to the community.
+
+---
+
+## 📄 Community Reports
+
+Browse all reports submitted by nearby citizens.
+
+Each report includes:
+
+* Photo
+* Issue category
+* Severity
+* Status
+* AI analysis (when available)
+* Community upvotes
+
+---
+
+## 🤝 Cleanup Drives
+
+Citizens can organize or join local cleanup drives around reported hotspots, encouraging people to work together instead of acting alone.
+
+---
+
+## 🌱 Gamification
+
+Every contribution helps your virtual plant grow.
+
+| Action             | Reward             |
+| ------------------ | ------------------ |
+| Report first issue | 🌱 Seed            |
+| Join first drive   | 🌿 Sprout          |
+| Complete 3 drives  | 🪴 Small Plant     |
+| Complete 10 drives | 🌸 Flowering Plant |
+| Complete 25 drives | 🌳 Full Tree       |
+
+---
+
+# 🛠 Tech Stack
+
+### Frontend
+
+* React 18
+* Vite
+* JavaScript
+* CSS
+
+### Maps
+
+* Google Maps JavaScript API
+* @react-google-maps/api
+
+### Backend
+
+* Firebase Firestore
+* Firebase Storage (planned)
+
+### AI
+
+* Google Gemini API
+
+### UI
+
+* Lucide React Icons
+* Glassmorphism
+* Dark Theme
+
+---
+
+# 🚀 Getting Started
 
 ```bash
 git clone https://github.com/yourusername/weseed.git
+
 cd weseed
+
 npm install
+
 npm run dev
 ```
 
-Open https://weseed.vercel.app
+Open:
+
+https://weseed.vercel.app
 
 ---
 
-## 📂 Project Structure
+# 📂 Project Structure
 
 ```
-weseed/
-├── src/
-│   ├── components/
-│   │   ├── BottomNav.jsx
-│   │   ├── StatusBar.jsx
-│   │   └── PlantSVG.jsx
-│   ├── screens/
-│   │   ├── HomeScreen.jsx
-│   │   ├── ReportScreen.jsx
-│   │   ├── DrivesScreen.jsx
-│   │   ├── FeedScreen.jsx
-│   │   └── PlantScreen.jsx
-│   ├── App.jsx
-│   ├── main.jsx
-│   └── index.css
-└── README.md
+src/
+│
+├── components/
+│   ├── BottomNav.jsx
+│   ├── StatusBar.jsx
+│   └── PlantSVG.jsx
+│
+├── screens/
+│   ├── HomeScreen.jsx
+│   ├── ReportScreen.jsx
+│   ├── ReportsScreen.jsx
+│   ├── HotspotsScreen.jsx
+│   ├── DrivesScreen.jsx
+│   ├── FeedScreen.jsx
+│   └── PlantScreen.jsx
+│
+├── firebase.js
+├── App.jsx
+├── main.jsx
+└── index.css
 ```
 
 ---
 
-## 🗺️ Roadmap
+# 🚧 Roadmap
 
-- [ ] Google Maps API integration
-- [ ] Firebase Auth
-- [ ] Firestore database
-- [ ] Push notifications
-- [ ] React Native (Expo) mobile app
-- [ ] Leaderboard by city and colony
-- [ ] Instagram story share for plant
-
----
-
-## 🙋 About
-
-Built by a first-year BTech (AI & ML) student who got tired of waiting for someone else to fix it.
-
-WeSeed — because the first step is always the hardest, and nobody should have to take it alone.
+* [x] Google Maps integration
+* [x] Firebase Firestore
+* [x] Live report markers
+* [x] Hotspot detection
+* [x] Community reports
+* [ ] Firebase Authentication
+* [ ] Firebase Storage for image uploads
+* [ ] Push notifications
+* [ ] AI-powered hotspot prioritization
+* [ ] Leaderboards
+* [ ] React Native mobile application
+* [ ] Municipal authority dashboard
+* [ ] Before/After cleanup verification
 
 ---
 
-## 📄 License
+# 🎯 Vision
 
-MIT
+Imagine opening a map and instantly knowing:
+
+* where garbage is accumulating,
+* which areas urgently need attention,
+* who nearby is willing to help,
+* and how a small community can solve local problems together.
+
+That's the future WeSeed is building.
+
+---
+
+# 👩‍💻 About
+
+Built by **Nandini Mangla**, a B.Tech Artificial Intelligence & Machine Learning student, to prove that technology can help communities take the first step toward cleaner neighborhoods.
+
+---
+
+# 📄 License
+
+MIT License
