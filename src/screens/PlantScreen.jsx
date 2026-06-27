@@ -1,5 +1,8 @@
 import { Settings, Trophy, TrendingUp, MapPin, Users, Sparkles, Lock, Check, Leaf, Share2 } from 'lucide-react'
 import PlantSVG from '../components/PlantSVG'
+import { useState, useEffect } from 'react';
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
 
 const stages = [
   { label: 'Seed', state: 'done' },
@@ -25,6 +28,33 @@ const impactCards = [
 ]
 
 export default function PlantScreen({ onDrives }) {
+  const [stats, setStats] = useState({
+    totalReports: 0,
+    resolved: 0,
+    pending: 0,
+    hotspots: 0,
+  });
+
+  useEffect(() => {
+    loadStats();
+  }, []);
+
+  const loadStats = async () => {
+    try {
+      const snapshot = await getDocs(collection(db, "reports"));
+      const reports = snapshot.docs.map(doc => doc.data());
+
+      const total = reports.length;
+      const resolved = reports.filter(r => r.status === 'Resolved').length;
+      const pending = total - resolved;
+      const hotspots = new Set(reports.map(r => `${Math.round(r.latitude)},${Math.round(r.longitude)}`)).size;
+
+      setStats({ totalReports: total, resolved, pending, hotspots });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div className="screen">
       <div className="scroll">
@@ -78,6 +108,30 @@ export default function PlantScreen({ onDrives }) {
           <div style={{ fontSize: 10, color: '#2d4a32', marginTop: 4 }}>78 XP until Full Tree — join a drive to get there</div>
         </div>
 
+        {/* Impact Dashboard Section */}
+        <div style={{ padding: '20px 20px 10px' }}>
+          <div style={{ fontSize: 15, fontWeight: 600, color: '#4ADE80', marginBottom: 12 }}>Community Impact</div>
+          
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+            <div className="glass-card" style={{ padding: 16, textAlign: 'center' }}>
+              <div style={{ fontSize: 28, fontWeight: 700, color: '#4ADE80' }}>{stats.totalReports}</div>
+              <div style={{ fontSize: 13, color: 'var(--text-dim)' }}>Total Reports</div>
+            </div>
+            <div className="glass-card" style={{ padding: 16, textAlign: 'center' }}>
+              <div style={{ fontSize: 28, fontWeight: 700, color: '#4ADE80' }}>{stats.resolved}</div>
+              <div style={{ fontSize: 13, color: 'var(--text-dim)' }}>Resolved</div>
+            </div>
+            <div className="glass-card" style={{ padding: 16, textAlign: 'center' }}>
+              <div style={{ fontSize: 28, fontWeight: 700, color: '#4ADE80' }}>{stats.hotspots}</div>
+              <div style={{ fontSize: 13, color: 'var(--text-dim)' }}>Hotspots</div>
+            </div>
+            <div className="glass-card" style={{ padding: 16, textAlign: 'center' }}>
+              <div style={{ fontSize: 28, fontWeight: 700, color: '#4ADE80' }}>{stats.pending}</div>
+              <div style={{ fontSize: 13, color: 'var(--text-dim)' }}>Pending</div>
+            </div>
+          </div>
+        </div>
+
         {/* Original Timeline */}
         <div style={{ padding: '14px 20px 0' }}>
           <div style={{ fontSize: 10, color: '#2d4a32', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 10, fontWeight: 500 }}>Growth journey</div>
@@ -97,7 +151,7 @@ export default function PlantScreen({ onDrives }) {
           </div>
         </div>
 
-        {/* Impact cards - Original */}
+        {/* Original Impact cards */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 20px 8px' }}>
           <span style={{ fontSize: 13, fontWeight: 500, color: '#4ADE80' }}>Impact</span>
           <span style={{ fontSize: 10, color: 'var(--text-dim)', cursor: 'pointer' }}>this month</span>
@@ -117,7 +171,7 @@ export default function PlantScreen({ onDrives }) {
           ))}
         </div>
 
-        {/* Achievements - Original */}
+        {/* Original Achievements */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 20px 8px' }}>
           <span style={{ fontSize: 13, fontWeight: 500, color: '#4ADE80' }}>Achievements</span>
           <span style={{ fontSize: 10, color: 'var(--text-dim)', cursor: 'pointer' }}>see all</span>
