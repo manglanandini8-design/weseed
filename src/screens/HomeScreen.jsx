@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Bell, User, MapPin, Plus } from 'lucide-react';
+import { Bell, User, MapPin, ArrowUp, Plus } from 'lucide-react';
 import { GoogleMap, Marker, LoadScript, Circle, InfoWindow } from '@react-google-maps/api';
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
@@ -107,6 +107,7 @@ export default function HomeScreen({ onReport, onViewReports, onViewHotspots }) 
 
   return (
     <div className="screen">
+      {/* Topbar */}
       <div className="topbar">
         <div>
           <div className="topbar-title">WeSeed</div>
@@ -122,22 +123,43 @@ export default function HomeScreen({ onReport, onViewReports, onViewHotspots }) 
       </div>
 
       <div className="scroll">
+        {/* Map - unchanged */}
         <div style={{ margin: '0 20px 14px', borderRadius: 20, overflow: 'hidden' }}>
-          <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY} key="google-map-script">
+          <LoadScript 
+            googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
+            key="google-map-script"
+          >
             {location ? (
-              <GoogleMap mapContainerStyle={mapContainerStyle} center={location} zoom={15}>
-                <Marker position={location} />
+              <GoogleMap
+                mapContainerStyle={mapContainerStyle}
+                center={{ lat: location.lat, lng: location.lng }}
+                zoom={15}
+              >
+                <Marker position={{ lat: location.lat, lng: location.lng }} icon={{ url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png' }} />
+
+                {reports.filter(r => typeof r.latitude === 'number' && typeof r.longitude === 'number').map(report => (
+                  <Marker key={report.id} position={{ lat: report.latitude, lng: report.longitude }} title={report.tag} />
+                ))}
 
                 {hotspots.map((hotspot, index) => {
-                  const hotspotColor = "#22C55E";
+                  const hotspotColor = hotspot.issue?.toLowerCase().includes("garbage") ? "#ef4444" 
+                    : hotspot.issue?.toLowerCase().includes("pothole") ? "#6b7280"
+                    : hotspot.issue?.toLowerCase().includes("dirty") ? "#3b82f6"
+                    : hotspot.issue?.toLowerCase().includes("litter") ? "#facc15" 
+                    : "#22C55E";
+
                   return (
-                    <Circle 
-                      key={`circle-${index}`} 
-                      center={hotspot.center} 
-                      radius={80 + (hotspot.reports?.length || 1) * 22} 
-                      options={{ fillColor: hotspotColor, strokeColor: hotspotColor, fillOpacity: 0.32, strokeWeight: 3 }} 
-                      onClick={() => setSelectedHotspot(hotspot)} 
-                    />
+                    <>
+                      <Circle key={`circle-${index}`} center={hotspot.center} radius={80 + (hotspot.reports?.length || 1) * 22} options={{ fillColor: hotspotColor, strokeColor: hotspotColor, fillOpacity: 0.32, strokeWeight: 3 }} onClick={() => setSelectedHotspot(hotspot)} />
+                      {selectedHotspot && selectedHotspot.issue === hotspot.issue && (
+                        <InfoWindow key={`info-${index}`} position={hotspot.center} onCloseClick={() => setSelectedHotspot(null)}>
+                          <div style={{ padding: '12px 16px', minWidth: '200px', background: '#0B0F0C', border: '1px solid rgba(34,197,94,0.3)', borderRadius: '12px', color: 'white' }}>
+                            <div style={{ fontWeight: 600, color: hotspotColor }}>{selectedHotspot.issue}</div>
+                            <div>{selectedHotspot.reports.length} reports</div>
+                          </div>
+                        </InfoWindow>
+                      )}
+                    </>
                   );
                 })}
               </GoogleMap>
@@ -149,47 +171,92 @@ export default function HomeScreen({ onReport, onViewReports, onViewHotspots }) 
           </LoadScript>
         </div>
 
+        {/* Buttons */}
         <div style={{ margin: "0 20px 14px", display: "flex", gap: 10 }}>
           <button onClick={onViewReports} style={{ flex: 1, padding: "10px", borderRadius: "12px", border: "none", background: "#22C55E", color: "#fff", fontWeight: "600" }}>📄 View Reports</button>
           <button onClick={onViewHotspots} style={{ flex: 1, padding: "10px", borderRadius: "12px", border: "1px solid #22C55E", background: "transparent", color: "#22C55E", fontWeight: "600" }}>🔥 Hotspots</button>
+        </div>
+
+        {/* Filter chips */}
+        <div className="filter-row">
+          {chips.map(c => (
+            <button key={c} className={`chip ${activeChip === c ? 'active' : ''}`} onClick={() => setActiveChip(c)}>{c}</button>
+          ))}
         </div>
 
         <div className="sec-label">
           {reports.length > 0 ? `${reports.length} spots reported near you` : 'No reports yet — be the first!'}
         </div>
 
-        {reports.map(report => {
-          const issueUI = getIssueUI(report.tag);
-          return (
-            <div key={report.id} className="glass-card" style={{ margin: '0 20px 10px', cursor: 'pointer' }} onClick={onReport}>
-              <div style={{ display: 'flex', gap: 12 }}>
-                <div style={{
-                  width: 58, height: 58, borderRadius: 14,
-                  background: issueUI.bg,
-                  display: "flex", justifyContent: "center", alignItems: "center",
-                  overflow: "hidden", flexShrink: 0, fontSize: 36
-                }}>
-                  {report.photo ? (
-                    <img src={report.photo} alt="report" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                  ) : (
-                    <span>{issueUI.icon}</span>
-                  )}
-                </div>
+        {/* Report Cards */}
+{reports.map(report => {
+  const issueUI = getIssueUI(report.tag);
+  return (
+    <div 
+      key={report.id} 
+      className="glass-card" 
+      style={{ margin: '0 20px 10px', cursor: 'pointer' }} 
+      onClick={onReport}
+    >
+      <div style={{ display: 'flex', gap: 12 }}>
+        
+       {/* Photo or Animated Fallback */}
+<div style={{
+  width: 58,
+  height: 58,
+  borderRadius: 14,
+  background: issueUI.bg,
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  overflow: "hidden",
+  flexShrink: 0,
+  position: "relative",
+  fontSize: 36
+}}>
+  {report.photo ? (
+    <img 
+      src={report.photo} 
+      alt="report" 
+      style={{ width: "100%", height: "100%", objectFit: "cover" }} 
+      onError={(e) => {
+        e.target.style.display = 'none';
+        // Show animated fallback
+        e.target.parentElement.innerHTML = `
+          <div style="font-size:42px; animation: bounce 1.2s infinite alternate; opacity:0.9;">
+            ${issueUI.icon}
+          </div>
+        `;
+      }}
+    />
+  ) : (
+    <span style={{ animation: 'bounce 1.2s infinite alternate', opacity: 0.95 }}>
+      {issueUI.icon}
+    </span>
+  )}
+</div>
 
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 14.5, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 4 }}>
-                    {report.tag}
-                  </div>
-                  <div style={{ fontSize: 11.5, color: 'var(--text-dim)', marginBottom: 8 }}>
-                    {report.createdAt?.toDate ? report.createdAt.toDate().toLocaleString() : "Just now"}
-                  </div>
-                </div>
-              </div>
-            </div>
-          );
-        })}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontSize: 14.5, fontWeight: 600, color: '#f0fdf4', marginBottom: 4 }}>
+            {report.tag}
+          </div>
+          <div style={{ fontSize: 11.5, color: 'var(--text-dim)', marginBottom: 8 }}>
+            {report.createdAt?.toDate ? report.createdAt.toDate().toLocaleString() : "Just now"}
+          </div>
+          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+            <span className={`tag ${report.severity === 'Mild' ? 'tag-green' : report.severity === 'Moderate' ? 'tag-orange' : 'tag-red'}`}>
+              {report.severity}
+            </span>
+            <span className="tag tag-green">{report.status || 'Open'}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+})}
       </div>
 
+      {/* FAB */}
       <button onClick={onReport} style={{ position: 'absolute', bottom: 90, right: 20, width: 50, height: 50, borderRadius: '50%', background: 'linear-gradient(135deg, #16a34a, #22C55E)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: 'none', cursor: 'pointer', zIndex: 50 }}>
         <Plus size={24} color="#fff" />
       </button>

@@ -117,14 +117,12 @@ export default function ReportScreen({ onBack }) {
     }
 
     try {
-      setLoading(true);
-
       await addDoc(collection(db, 'reports'), {
         tag: selectedTag,
         severity,
         note,
         analysis: parsedAnalysis,
-        photo: photo,  // blob URL
+        photo: photo, // blob URL
         location: `${currentLocation.latitude.toFixed(5)}, ${currentLocation.longitude.toFixed(5)}`,
         latitude: currentLocation.latitude,
         longitude: currentLocation.longitude,
@@ -139,8 +137,6 @@ export default function ReportScreen({ onBack }) {
     } catch (error) {
       console.error(error);
       alert('Failed to submit. Check your connection.');
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -154,25 +150,6 @@ export default function ReportScreen({ onBack }) {
       </div>
 
       <div className="scroll" style={{ padding: '0 0 20px' }}>
-        {loading && <div style={{ margin: "0 20px 14px", padding: "14px", borderRadius: "12px", background: "rgba(34,197,94,0.08)", color: "#86EFAC" }}>Processing...</div>}
-        {error && <div style={{ margin: "0 20px 14px", padding: "14px", borderRadius: "12px", background: "rgba(239,68,68,0.1)", color: "#ef5350" }}>{error}</div>}
-
-        {analysis && (
-          <div style={{ margin: "0 20px 14px", padding: "14px", borderRadius: "12px", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(34,197,94,0.15)", whiteSpace: "pre-wrap", color: "#d1d5db", fontSize: "12px", lineHeight: "1.6" }}>
-            {parsedAnalysis && (
-              <div>
-                <p style={{ color: "#4ADE80", fontWeight: "600", marginBottom: "10px" }}>🌱 Seed Agent Analysis</p>
-                <p><strong>Issue:</strong> {parsedAnalysis.issueType}</p>
-                <p><strong>Severity:</strong> {parsedAnalysis.severity}</p>
-                <p><strong>Risk:</strong> {parsedAnalysis.risk}</p>
-                <p><strong>Authority:</strong> {parsedAnalysis.department}</p>
-                <p><strong>Confidence:</strong> {parsedAnalysis.confidence}</p>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Photo Section */}
         <div style={{ margin: '14px 20px', height: 150, background: 'rgba(255,255,255,0.02)', border: '1.5px dashed rgba(34,197,94,0.2)', borderRadius: 18, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8, cursor: 'pointer', position: 'relative' }}>
           {photo ? (
             <img src={photo} alt="spot" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -196,7 +173,7 @@ export default function ReportScreen({ onBack }) {
           </div>
         )}
 
-        {/* Rest of your UI */}
+        {/* Rest of your UI - Unchanged */}
         <div style={{ padding: '0 20px 14px' }}>
           <div style={{ fontSize: 11, color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 8, fontWeight: 500 }}>What is it?</div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 8 }}>
@@ -242,8 +219,8 @@ export default function ReportScreen({ onBack }) {
         </div>
 
         <div style={{ padding: '0 20px' }}>
-          <button className="btn-primary" onClick={submitReport} disabled={loading}>
-            <MapPin size={16} /> {loading ? 'Submitting...' : 'Submit report'}
+          <button className="btn-primary" onClick={submitReport}>
+            <MapPin size={16} /> Submit report
           </button>
         </div>
       </div>
