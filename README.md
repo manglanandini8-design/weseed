@@ -81,6 +81,43 @@ Citizens who genuinely want to contribute usually don't know:
 WeSeed bridges this gap through AI, location intelligence, and community collaboration.
 
 ---
+=======
+## 📸 Screenshots
+
+### 🗺️ Home & Hotspots
+
+| Home Map                                  | Hotspot Detection                         |
+| ----------------------------------------- | ----------------------------------------- |
+| <img src="SCREENSHOTS/3.png" width="420"> | <img src="SCREENSHOTS/5.png" width="420"> |
+
+---
+
+### 📝 Report an Issue
+
+| Report Form                               | Report Details                            |
+| ----------------------------------------- | ----------------------------------------- |
+| <img src="screenshots/6.png" width="420"> | <img src="screenshots/5.png" width="420"> |
+
+---
+
+### 🤝 Community Action
+
+| Community Drives                          | Plan a Drive                              |
+| ----------------------------------------- | ----------------------------------------- |
+| <img src="screenshots/2.png" width="420"> | <img src="screenshots/1.png" width="420"> |
+
+---
+
+### 🌍 Community Reports
+
+<img src="screenshots/5.png" width="850">
+
+---
+
+### 🌱 Gamification
+
+<img src="screenshots/4.png" width="850">
+
 
 # ✨ Features
 
