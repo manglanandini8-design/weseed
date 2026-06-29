@@ -88,7 +88,7 @@ WeSeed bridges this gap through AI, location intelligence, and community collabo
 
 | Home Map                                  | Hotspot Detection                         |
 | ----------------------------------------- | ----------------------------------------- |
-| <img src="SCREENSHOTS/3.png" width="420"> | <img src="SCREENSHOTS/5.png" width="420"> |
+| <img src="screenshots/3.png" width="420"> | <img src="screenshots/5.png" width="420"> |
 
 ---
 
