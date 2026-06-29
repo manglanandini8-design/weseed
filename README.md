@@ -81,6 +81,25 @@ Citizens who genuinely want to contribute usually don't know:
 WeSeed bridges this gap through AI, location intelligence, and community collaboration.
 
 ---
+## 📱 Screenshots
+
+### Home & Hotspots
+![](SCREENSHOTS/3.png)
+
+---
+
+### Report an Issue
+![](SCREENSHOTS/6.png)
+
+---
+
+### Community Action & Feed
+![](SCREENSHOTS/2.png)
+
+---
+
+### Plant Journey
+![](SCREENSHOTS/4.png)
 
 ## 📱 Screenshots
 
