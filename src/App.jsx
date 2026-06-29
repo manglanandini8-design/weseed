@@ -5,7 +5,7 @@ import BottomNav from './components/BottomNav'
 import HomeScreen from './screens/HomeScreen'
 import ReportScreen from './screens/ReportScreen'
 import ReportsScreen from './screens/ReportsScreen'
-import DrivesScreen from './screens/DrivesScreen'
+import DrivesScreen, { PlanDriveScreen }from './screens/DrivesScreen'
 import FeedScreen from './screens/FeedScreen'
 import PlantScreen from './screens/PlantScreen'
 import HotspotsScreen from './screens/HotspotsScreen'
@@ -15,6 +15,8 @@ export default function App() {
   const [reporting, setReporting] = useState(false)
   const [showReports, setShowReports] = useState(false)
   const [showHotspots, setShowHotspots] = useState(false)
+  const [planningDrive, setPlanningDrive] = useState(false)
+  const [plannedDrive, setPlannedDrive] = useState(null)
 
   const handleReport = () => setReporting(true)
   const handleBack = () => setReporting(false)
@@ -22,6 +24,12 @@ export default function App() {
   const handleCloseReports = () => setShowReports(false)
   const handleOpenHotspots = () => setShowHotspots(true)
   const handleCloseHotspots = () => setShowHotspots(false)
+  const handleOpenPlanDrive = () => setPlanningDrive(true)
+ const handleClosePlanDrive = () => setPlanningDrive(false)
+ const handleDriveSubmit = (form) => {
+  setPlannedDrive(form)
+  setPlanningDrive(false)
+}
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', minHeight: '100vh', background: '#111', padding: '20px 0' }}>
@@ -34,10 +42,20 @@ export default function App() {
           <ReportsScreen onBack={handleCloseReports} />
         ) : showHotspots ? (
           <HotspotsScreen onBack={handleCloseHotspots} />
+          ) : planningDrive ? (
+  <PlanDriveScreen
+    onBack={handleClosePlanDrive}
+    onSubmit={handleDriveSubmit}
+  />
         ) : (
           <>
             {tab === 'home' && <HomeScreen onReport={handleReport} onViewReports={handleOpenReports} onViewHotspots={handleOpenHotspots} />}
-            {tab === 'drives' && <DrivesScreen />}
+          {tab === 'drives' && (
+  <DrivesScreen
+    onPlanDrive={handleOpenPlanDrive}
+    plannedDrive={plannedDrive}
+  />
+)}
             {tab === 'feed' && <FeedScreen />}
             {tab === 'plant' && <PlantScreen onDrives={() => setTab('drives')} />}
           </>

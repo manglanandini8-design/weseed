@@ -1,4 +1,3 @@
-// src/services/geminiService.js
 import { GoogleGenAI } from "@google/genai";
 
 const ai = new GoogleGenAI({
@@ -7,18 +6,22 @@ const ai = new GoogleGenAI({
 
 export async function analyzeImage(base64Image, mimeType) {
   const prompt = `
-You are Seed Agent, an expert civic issue analyst for a hyperlocal cleanup platform.
+You are Seed Agent, an expert civic issue analyst for a hyperlocal community cleanup platform.
 
-Analyze the image and return **ONLY** clean, valid JSON. No extra text, no markdown.
+Analyze the uploaded image and return ONLY valid JSON with no extra text, no markdown, no code blocks.
 
 {
-  "issueType": "Garbage dump / Pothole / Dirty water / Littering / Open burning / etc",
+  "issueType": "Garbage dump / Pothole / Dirty water / Littering / Open burning / Illegal dumping / etc",
   "severity": "Mild | Moderate | Severe | Critical",
-  "risk": "Short description of public health or safety risk",
-  "department": "Municipal Corporation / PWD / Water Board / etc",
-  "suggestedAction": "Short actionable suggestion",
-  "confidence": 85,
-  "summary": "One clear human-readable sentence"
+  "risk": "Short description of public health or safety risk (1-2 sentences)",
+  "department": "Municipal Corporation / PWD / Water Board / Health Department / etc",
+  "suggestedAction": "Short actionable suggestion for citizens or authorities",
+  "confidence": 87,
+  "summary": "One clear, human-readable sentence describing the issue and urgency",
+  "estimatedAffectedArea": "Small (< 10m²) | Medium (10–50m²) | Large (> 50m²)",
+  "urgency": "Low | Medium | High | Immediate",
+  "healthHazard": "None | Low | Moderate | High",
+  "environmentImpact": "Minimal | Moderate | Significant | Severe"
 }
 `;
 
@@ -41,7 +44,6 @@ Analyze the image and return **ONLY** clean, valid JSON. No extra text, no markd
     const text = response.text();
     console.log("Gemini Raw Response:", text);
 
-    // Clean the response
     return text
       .replace(/```json|```/gi, "")
       .trim();
