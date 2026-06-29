@@ -213,7 +213,7 @@ export default function DrivesScreen({
 
       <div className="topbar">
         <div>
-          <div className="topbar-title">Cleanup drives</div>
+          <div className="topbar-title">Community Action</div>
           <div className="topbar-sub">{drives.length} near you this week</div>
         </div>
         <button onClick={() => onPlanDrive(addDrive)} className="btn-ghost" style={{ width: 'auto', padding: '7px 14px', fontSize: 12 }}>
