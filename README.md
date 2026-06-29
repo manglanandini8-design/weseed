@@ -81,6 +81,33 @@ Citizens who genuinely want to contribute usually don't know:
 WeSeed bridges this gap through AI, location intelligence, and community collaboration.
 
 ---
+# 📱 Screenshots
+
+## Home & Hotspots
+
+| Home | Hotspots | Map |
+|-------|-----------|
+| ![](SCREENSHOTS/3.png) |
+
+---
+
+## Report Issue
+
+| Report | Report Details |
+|---------|----------------|
+| ![](SCREENSHOTS/6.png) |
+
+---
+
+## Community Action | Community Feed |
+
+| Drives | Plan Drive | Feed Screen
+|--------|------------|
+| ![](SCREENSHOTS/2.png) |  ![](SCREENSHOTS/1.png) | 
+
+## Plant Journey
+
+![](SCREENSHOTS/4.png) |
 
 # ✨ Features
 
@@ -144,25 +171,80 @@ Each report includes:
 
 ---
 
-## Cleanup Drives
+## Community Action
 
-Users can create or join community cleanup drives around reported hotspots, encouraging collaborative action instead of isolated efforts.
+WeSeed transforms reports into real-world action through community-organized cleanup events.
+
+Users can:
+
+- Create community action drives
+- Join nearby environmental drives
+- View upcoming and joined events
+- Track volunteer participation
+- Organize cleanups around reported hotspots
+- Coordinate environmental initiatives with local citizens
+
+Instead of only reporting problems, WeSeed encourages communities to solve them together.
+---
+
+## Before & After Feed
+
+Every successful cleanup deserves to be seen.
+
+The community feed showcases environmental transformations through before-and-after updates, allowing volunteers to share the impact of their efforts.
+
+Features include:
+
+- Before vs After comparisons
+- Community achievements
+- Like and comment support
+- Recent cleanup activities
+- Public environmental success stories
+
+Seeing visible change motivates more people to participate in future drives.
+
+## Gamification-Plant Growth Journey
+
+
+Every action contributes to your personal environmental journey.
+
+Users earn experience points by reporting issues, participating in community actions, and resolving civic problems.
+
+Progression:
+
+| Stage | XP |
+|--------|----|
+| 🌱 Seed | 0 XP |
+| 🌿 Sprout | 50 XP |
+| 🪴 Plant | 150 XP |
+| 🌸 Flower | 300 XP |
+| 🌳 Tree | 500 XP |
+
+The profile also includes:
+
+- Community impact statistics
+- Achievement badges
+- Contribution history
+- Environmental progress tracker
+
+The more you contribute, the more your virtual plant grows alongside your real-world impact.
 
 ---
 
-## Gamification
+## Personal Dashboard
 
-Every meaningful contribution helps your virtual plant grow.
+Every user has a personalized profile that tracks their environmental contributions.
 
-| Action | Reward |
-|----------|----------|
-| First contribution | Seed |
-| Continue reporting | Sprout |
-| Active participation | Plant |
-| Community impact | Flower |
-| Long-term contribution | Tree |
+Dashboard includes:
 
----
+- XP progress
+- Plant growth
+- Reports submitted
+- Issues resolved
+- Active hotspots
+- Pending reports
+- Achievement badges
+- Community impact statistics
 
 # 🛠 Tech Stack
 
