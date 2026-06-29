@@ -233,7 +233,7 @@ function Toast({ message, onClose }) {
   }, [onClose]);
   return (
     <div style={{
-      position: 'fixed', bottom: 100, left: '50%', transform: 'translateX(-50%)',
+      position: 'absolute', bottom: 100, left: '50%', transform: 'translateX(-50%)',
       background: '#1a2e20', border: '0.5px solid rgba(34,197,94,0.3)',
       borderRadius: 20, padding: '10px 18px', fontSize: 12, color: '#4ADE80',
       zIndex: 999, whiteSpace: 'nowrap', boxShadow: '0 4px 20px rgba(0,0,0,0.4)',
@@ -257,6 +257,9 @@ export default function ReportScreen({ onBack }) {
   const [toast, setToast] = useState(null);
   const fileRef = useRef();
   const videoRef = useRef();
+  // Ref that always holds the latest analysis value.
+  // submitReport() reads from this ref to avoid reading stale closure state.
+  const analysisRef = useRef(null);
   const [showCamera, setShowCamera] = useState(false);
 
   useEffect(() => {
@@ -265,6 +268,11 @@ export default function ReportScreen({ onBack }) {
       (error) => console.error('Location error:', error)
     );
   }, []);
+
+  // Keep ref in sync with state so submitReport always reads the latest value.
+  useEffect(() => {
+    analysisRef.current = analysis;
+  }, [analysis]);
 
   const processFile = (file) => {
     setPhotoFile(file);
@@ -328,59 +336,38 @@ export default function ReportScreen({ onBack }) {
   };
 
   const submitReport = async () => {
-  console.log("Submit clicked");
+    if (!photoFile) { setToast('📸 Please take or upload a photo first.'); return; }
+    if (!currentLocation) { setToast('📍 Location not detected yet.'); return; }
 
-  if (!photoFile) {
-    console.log("No photo");
-    setToast("📸 Please take or upload a photo first.");
-    return;
-  }
+    // Must read from ref — the `analysis` variable captured by this closure is stale.
+    // analysisRef.current is always up-to-date regardless of which render created this function.
+    const currentAnalysis = analysisRef.current;
+    console.log('Analysis from ref:', currentAnalysis);
 
-  if (!currentLocation) {
-    console.log("No location");
-    setToast("📍 Location not detected yet.");
-    return;
-  }
-
-  try {
-    console.log("Starting Firestore upload...");
-
-    setSubmitting(true);
-
-    const docRef = await addDoc(collection(db, "reports"), {
-      tag: selectedTag,
-      severity,
-      note,
-      analysis: analysis || {},
-      photo: photo || "",
-      location: `${currentLocation.latitude.toFixed(5)}, ${currentLocation.longitude.toFixed(5)}`,
-      latitude: currentLocation.latitude,
-      longitude: currentLocation.longitude,
-      createdAt: serverTimestamp(),
-      status: "Open",
-      resolved: false,
-      upvotes: 0,
-    });
-
-    console.log("SUCCESS");
-    console.log(docRef.id);
-
-    setToast("🌱 Report submitted!");
-
-    setTimeout(onBack, 1500);
-
-  } catch (error) {
-    console.error("FIRESTORE ERROR:");
-    console.error(error);
-    console.error(error.code);
-    console.error(error.message);
-
-    setToast("❌ Failed to submit.");
-
-  } finally {
-    setSubmitting(false);
-  }
-};
+    try {
+      setSubmitting(true);
+      await addDoc(collection(db, 'reports'), {
+        tag: selectedTag,
+        severity,
+        note,
+        analysis: currentAnalysis || {},
+        photo,
+        location: `${currentLocation.latitude.toFixed(5)}, ${currentLocation.longitude.toFixed(5)}`,
+        latitude: currentLocation.latitude,
+        longitude: currentLocation.longitude,
+        createdAt: serverTimestamp(),
+        status: 'Open',
+        resolved: false,
+        upvotes: 0,
+      });
+      setToast('🌱 Report submitted! Thank you.');
+      setTimeout(onBack, 1500);
+    } catch {
+      setToast('❌ Failed to submit. Check your connection.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div className="screen">

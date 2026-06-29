@@ -42,11 +42,16 @@ Analyze the uploaded image and return ONLY valid JSON with no extra text, no mar
     });
 
     const text = response.text();
-    console.log("Gemini Raw Response:", text);
 
-    return text
-      .replace(/```json|```/gi, "")
-      .trim();
+console.log("================================");
+console.log("RAW GEMINI RESPONSE");
+console.log(text);
+console.log("TYPE:", typeof text);
+console.log("================================");
+
+return text
+  .replace(/```json|```/gi, "")
+  .trim();
 
   } catch (error) {
     console.error("Gemini API Error:", error);
