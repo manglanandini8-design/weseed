@@ -1,10 +1,16 @@
-# 🌱 WeSeed — Clean Together
+# 🌱 WeSeed — Take the First Step Together
 
-> **You don't have to clean alone.**
+> **The hardest part isn't solving a community problem. It's taking the first step together.**
 
-WeSeed is an AI-powered civic-tech platform that helps citizens report environmental issues, discover community hotspots, and organize local cleanup drives. It combines crowdsourced reporting, intelligent mapping, and community participation to make neighborhoods cleaner together.
+WeSeed is an AI-powered hyperlocal civic reporting platform that empowers citizens to report, track, and collaboratively solve everyday community issues such as garbage dumps, potholes, water leakages, damaged streetlights, illegal dumping, broken trees, and more.
 
-**Live Demo:** https://weseed.vercel.app
+By combining AI-powered issue analysis, live mapping, hotspot detection, and community participation, WeSeed transforms individual reports into collective action.
+
+## 🌐 Live Demo
+
+**Firebase Hosting (Google Cloud):** https://weseed-4bc42.web.app
+
+**Vercel Preview:** https://weseed.vercel.app
 
 ---
 
@@ -12,7 +18,9 @@ WeSeed is an AI-powered civic-tech platform that helps citizens report environme
 
 Right outside my college is a stretch of road that's almost always covered in garbage.
 
-Every day I walked past it thinking, *someone should clean this.*
+Every day I walked past it thinking,
+
+*"Someone should fix this."*
 
 Many times I wanted to.
 
@@ -23,7 +31,9 @@ Not because I didn't care.
 Because I was afraid.
 
 Afraid people would stare.
+
 Afraid someone would laugh.
+
 Afraid of that familiar thought:
 
 **"Log kya kahenge?"**
@@ -32,125 +42,125 @@ Then I realized something.
 
 Maybe thousands of people feel exactly the same.
 
-People who genuinely care, but don't want to be the only one picking up trash in public.
+People who genuinely care, but don't want to be the only one taking initiative in public.
 
-That realization became WeSeed.
+That realization became **WeSeed**.
 
-Not another NGO.
 Not another complaint app.
 
-A platform where people who already care can find each other and take action together.
+Not another NGO.
 
-Because the hardest part isn't cleaning.
+A platform where people who already care can find each other, report local issues, organize action, and make change together.
+
+Because the hardest part isn't fixing the problem.
 
 It's taking the first step alone.
 
 ---
 
-# 🌍 The Problem
+# 🌍 Problem Statement
 
-Cities receive thousands of complaints every year, yet many local environmental issues remain unresolved.
+Communities face everyday civic problems such as:
 
-At the same time, citizens who genuinely want to help often hesitate because they feel uncomfortable acting alone.
+- Garbage accumulation
+- Potholes
+- Water leakages
+- Broken streetlights
+- Illegal dumping
+- Fallen trees
+- Public infrastructure issues
 
-WeSeed bridges that gap by connecting people, highlighting problem areas, and encouraging collective action.
+Although reporting systems exist, they are often fragmented, slow, and discourage community participation.
+
+Citizens who genuinely want to contribute usually don't know:
+
+- whether others have already reported the issue,
+- who else wants to help,
+- or whether any action is actually being taken.
+
+WeSeed bridges this gap through AI, location intelligence, and community collaboration.
 
 ---
 
 # ✨ Features
 
-## 🗺️ Smart Community Map
+## Smart Community Map
 
-* Live Google Maps integration
-* Nearby environmental reports
-* User location detection
-* Interactive report markers
-
----
-
-## 📸 Report an Issue
-
-Users can report:
-
-* Garbage dumps
-* Potholes
-* Dirty water
-* Littering
-* Streetlight issues
-* Other civic problems
-
-Each report stores:
-
-* GPS location
-* Photo
-* Severity
-* Description
-* Timestamp
+- Live Google Maps integration
+- Nearby issue reports
+- User location detection
+- Interactive report markers
 
 ---
 
-## 🔥 Hotspot Detection
+## AI-Powered Issue Reporting
 
-One of WeSeed's core features.
+Users can upload a photo of any civic issue.
 
-The application automatically:
+Gemini AI automatically analyzes the image and predicts:
 
-* Groups nearby reports
-* Detects recurring issues
-* Calculates hotspot severity
-* Displays color-coded hotspot circles
+- Issue category
+- Severity
+- Risk assessment
+- Responsible authority
+- Suggested action
+- Confidence score
+- Environmental impact
+- Health hazard
+- Urgency level
 
-This allows users to immediately identify the areas needing the most attention.
-
----
-
-## 🤖 AI Assisted Analysis
-
-When available, Gemini AI analyzes uploaded images to identify:
-
-* Issue type
-* Severity
-* Risk level
-* Responsible authority
-* Recommended action
-* Confidence level
-
-If AI is unavailable, reports are still stored and remain visible to the community.
+Reports continue working even if AI analysis is unavailable.
 
 ---
 
-## 📄 Community Reports
+## Hyperlocal Hotspot Detection
 
-Browse all reports submitted by nearby citizens.
+Nearby reports are automatically clustered to identify recurring civic problems.
+
+The application:
+
+- Groups nearby reports
+- Detects high-density issue zones
+- Calculates hotspot severity
+- Displays color-coded hotspot regions
+
+This enables citizens to instantly identify areas needing immediate attention.
+
+---
+
+## Community Reports
+
+Browse reports submitted by nearby citizens.
 
 Each report includes:
 
-* Photo
-* Issue category
-* Severity
-* Status
-* AI analysis (when available)
-* Community upvotes
+- Photo
+- Issue category
+- Severity
+- Status
+- AI analysis
+- Timestamp
+- GPS location
 
 ---
 
-## 🤝 Cleanup Drives
+## Cleanup Drives
 
-Citizens can organize or join local cleanup drives around reported hotspots, encouraging people to work together instead of acting alone.
+Users can create or join community cleanup drives around reported hotspots, encouraging collaborative action instead of isolated efforts.
 
 ---
 
-## 🌱 Gamification
+## Gamification
 
-Every contribution helps your virtual plant grow.
+Every meaningful contribution helps your virtual plant grow.
 
-| Action             | Reward             |
-| ------------------ | ------------------ |
-| Report first issue | 🌱 Seed            |
-| Join first drive   | 🌿 Sprout          |
-| Complete 3 drives  | 🪴 Small Plant     |
-| Complete 10 drives | 🌸 Flowering Plant |
-| Complete 25 drives | 🌳 Full Tree       |
+| Action | Reward |
+|----------|----------|
+| First contribution | Seed |
+| Continue reporting | Sprout |
+| Active participation | Plant |
+| Community impact | Flower |
+| Long-term contribution | Tree |
 
 ---
 
@@ -158,30 +168,30 @@ Every contribution helps your virtual plant grow.
 
 ### Frontend
 
-* React 18
-* Vite
-* JavaScript
-* CSS
-
-### Maps
-
-* Google Maps JavaScript API
-* @react-google-maps/api
+- React
+- Vite
+- JavaScript
+- CSS
 
 ### Backend
 
-* Firebase Firestore
-* Firebase Storage (planned)
+- Firebase Firestore
+- Firebase Hosting (Google Cloud)
 
 ### AI
 
-* Google Gemini API
+- Google Gemini API
+
+### Maps
+
+- Google Maps JavaScript API
+- @react-google-maps/api
 
 ### UI
 
-* Lucide React Icons
-* Glassmorphism
-* Dark Theme
+- Lucide Icons
+- Responsive Design
+- Dark Theme
 
 ---
 
@@ -197,21 +207,33 @@ npm install
 npm run dev
 ```
 
-Open:
+Production build:
 
-https://weseed.vercel.app
+```bash
+npm run build
+```
+
+Deploy to Firebase Hosting:
+
+```bash
+firebase deploy
+```
+
+Firebase Hosting provides secure Google Cloud deployment for the application. :contentReference[oaicite:0]{index=0}
 
 ---
 
 # 📂 Project Structure
 
-```
+```text
 src/
+│
+├── assets/
 │
 ├── components/
 │   ├── BottomNav.jsx
-│   ├── StatusBar.jsx
-│   └── PlantSVG.jsx
+│   ├── PlantSVG.jsx
+│   └── StatusBar.jsx
 │
 ├── screens/
 │   ├── HomeScreen.jsx
@@ -221,6 +243,9 @@ src/
 │   ├── DrivesScreen.jsx
 │   ├── FeedScreen.jsx
 │   └── PlantScreen.jsx
+│
+├── services/
+│   └── geminiService.js
 │
 ├── firebase.js
 ├── App.jsx
@@ -232,38 +257,43 @@ src/
 
 # 🚧 Roadmap
 
-* [x] Google Maps integration
-* [x] Firebase Firestore
-* [x] Live report markers
-* [x] Hotspot detection
-* [x] Community reports
-* [ ] Firebase Authentication
-* [ ] Firebase Storage for image uploads
-* [ ] Push notifications
-* [ ] AI-powered hotspot prioritization
-* [ ] Leaderboards
-* [ ] React Native mobile application
-* [ ] Municipal authority dashboard
-* [ ] Before/After cleanup verification
+- ✅ Google Maps integration
+- ✅ Firebase Firestore
+- ✅ Firebase Hosting
+- ✅ AI-powered issue analysis
+- ✅ Community reports
+- ✅ Hotspot detection
+- ✅ Gamification
+- ⬜ Firebase Authentication
+- ⬜ Push Notifications
+- ⬜ Municipal authority dashboard
+- ⬜ Before/After cleanup verification
+- ⬜ React Native application
 
 ---
 
 # 🎯 Vision
 
-Imagine opening a map and instantly knowing:
+Imagine opening one app and instantly knowing:
 
-* where garbage is accumulating,
-* which areas urgently need attention,
-* who nearby is willing to help,
-* and how a small community can solve local problems together.
+- what issues exist around you,
+- where immediate action is needed,
+- who nearby is willing to help,
+- and how a community can solve problems together.
 
-That's the future WeSeed is building.
+WeSeed aims to become the bridge between civic awareness and collective action.
 
 ---
 
 # 👩‍💻 About
 
-Built by **Nandini Mangla**, a B.Tech Artificial Intelligence & Machine Learning student, to prove that technology can help communities take the first step toward cleaner neighborhoods.
+Built by **Nandini Mangla**
+
+B.Tech Artificial Intelligence & Machine Learning Student
+
+WeSeed was created from a simple belief:
+
+**Communities become stronger when taking the first step is no longer something people have to do alone.**
 
 ---
 
