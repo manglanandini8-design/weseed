@@ -85,22 +85,22 @@ WeSeed bridges this gap through AI, location intelligence, and community collabo
 ## 📱 Screenshots
 
 ### Home & Hotspots
-![](SCREENSHOTS/3.png)
+![](screenshots/3.png)
 
 ---
 
 ### Report an Issue
-![](SCREENSHOTS/6.png)
+![](screenshots/6.png)
 
 ---
 
 ### Community Action & Feed
-![](SCREENSHOTS/2.png)
+![](screenshots/2.png)
 
 ---
 
 ### Plant Journey
-![](SCREENSHOTS/4.png)
+![](screenshots/4.png)
 
 # ✨ Features
 
